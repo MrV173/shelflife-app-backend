@@ -1,0 +1,130 @@
+
+// Create a User
+POST http://localhost:5000/user
+Content-Type: application/json
+
+{
+    "name": "admin",
+    "email" : "admin@gmail.com",
+    "password" : "12345678",
+    "confPassword" : "12345678",
+    "role": "admin"
+}
+
+###
+//Get All User
+GET http://localhost:5000/users
+
+
+###
+//Get user by id
+GET http://localhost:5000/user/db35b484-8045-484d-808d-d2dedbaab211
+
+###
+// Update a User
+PATCH  http://localhost:5000/user/db35b484-8045-484d-808d-d2dedbaab211
+Content-Type: application/json
+
+{
+    "name": "ibnu updated",
+    "email" : "hakimupdated@gmail.com",
+    "password" : "",
+    "confPassword" : "",
+    "role": "admin"
+}
+
+
+###
+//Delete All User
+DELETE  http://localhost:5000/user/db35b484-8045-484d-808d-d2dedbaab211
+
+
+###
+// LOGIN ADMIN
+POST  http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email" : "admin@gmail.com",
+    "password" : "12345678"
+}
+
+###
+// LOGIN USER
+POST  http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email" : "hangry.tamanpalem@ishangry.com",
+    "password" : "12345678"
+}
+
+###
+// ME
+GET   http://localhost:5000/me
+
+
+###
+// LOGOUT
+DELETE http://localhost:5000/logout
+
+
+###
+//Get All Product
+GET http://localhost:5000/products
+
+
+###
+//Get Product by id
+GET http://localhost:5000/product/d6774ef3-2e1a-4276-bc55-03af5d86fa85
+
+
+
+###
+//Create Product
+POST http://localhost:5000/product
+Content-Type: application/json
+
+{
+    "name" : "Gyudon",
+    "shelflifeInHour": "10",
+    "shelflifeInMinute" : "2"
+}
+
+
+###
+//Update Product
+PATCH http://localhost:5000/product/ea6f4d5c-b14c-4f8a-b1ff-50dd820c42f0
+Content-Type: application/json
+
+{
+    "name" : "Geprek",
+    "shelflifeInHour": "2",
+    "shelflifeInMinute" : "0"
+}
+
+###
+//Delete Product
+DELETE  http://localhost:5000/product/175aab37-3d3c-45d2-b043-b7170ab1a0c8
+
+
+
+###
+// Get Shelflife
+GET http://localhost:5000/shelflifes
+
+
+###
+// Get all shelflife by user
+GET http://localhost:5000/user-shelflifes
+
+###
+//Create Shelflife
+POST http://localhost:5000/shelflife
+Content-Type: application/json
+
+{
+    "name" : "MFC",
+    "hour" : 2,
+    "minute": 0
+}
