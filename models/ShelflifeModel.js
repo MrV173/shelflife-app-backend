@@ -1,6 +1,7 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
 import Users from "../models/UserModel.js";
+import Category from "./CategoryModel.js";
 
 const { DataTypes } = Sequelize;
 
@@ -22,7 +23,14 @@ const Shelflifes = db.define(
         notEmpty: true,
       },
     },
-    date: {
+    startDate: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
+    endDate: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
@@ -51,11 +59,21 @@ const Shelflifes = db.define(
         notEmpty: true,
       },
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        notEmpty: true,
+      },
+    },
   },
   {
     freezeTableName: true,
   }
 );
+
+Category.hasMany(Shelflifes);
+Shelflifes.belongsTo(Category, { foreignKey: "categoryId" });
 
 Users.hasMany(Shelflifes);
 Shelflifes.belongsTo(Users, { foreignKey: "userId" });

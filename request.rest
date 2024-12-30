@@ -55,7 +55,7 @@ POST  http://localhost:5000/login
 Content-Type: application/json
 
 {
-    "email" : "hangry.tamanpalem@ishangry.com",
+    "email" : "user@gmail.com",
     "password" : "12345678"
 }
 
@@ -71,7 +71,7 @@ DELETE http://localhost:5000/logout
 
 ###
 //Get All Product
-GET http://localhost:5000/products
+GET http://localhost:5000/products?excludedCategoryName=Rarely Used Product
 
 
 ###
@@ -86,9 +86,10 @@ POST http://localhost:5000/product
 Content-Type: application/json
 
 {
-    "name" : "Gyudon",
-    "shelflifeInHour": "10",
-    "shelflifeInMinute" : "2"
+    "name" : "UNO",
+    "shelflifeInHour": "2",
+    "shelflifeInMinute" : "0",
+    "categoryId" : 5
 }
 
 
@@ -124,7 +125,72 @@ POST http://localhost:5000/shelflife
 Content-Type: application/json
 
 {
-    "name" : "MFC",
-    "hour" : 2,
-    "minute": 0
+    "name" : "Thawing MFC",
+    "hour" : 36,
+    "minute": 0,
+    "categoryId" : "811e8b1a-22b7-433e-8b20-cc841ac674fd"
 }
+
+
+###Create Category
+POST http://localhost:5000/category
+Content-Type: application/json
+
+{
+    "name" : "Thawing"
+}
+
+### Get All Categories
+GET http://localhost:5000/categories
+
+
+### Get Category By ID
+GET http://localhost:5000/category/019e79cb-5592-47a4-af75-6b3027aee246
+
+
+### Delete Category
+DELETE http://localhost:5000/category/d5efd680-f091-4080-92cc-17c59d29e2b7
+
+
+### Get All Rare Products
+GET http://localhost:5000/rare-products
+
+### Create Rare Product
+POST http://localhost:5000/rare-product
+Content-Type: application/json
+
+{
+    "name" : "test",
+    "shelfLifeInDay" : 10
+}
+
+
+### Get Shelflife by date
+GET http://localhost:5000/user-shelflifes/history?date=2024-10-11
+
+
+### Get Product By Category Name
+GET http://localhost:5000/products/category-name?categoryName=Thawing
+
+
+### Get Shelflife By Category Name
+GET http://localhost:5000/shelflifes/category-name?categoryName=Rarely Used Product
+
+
+### Get Category By Name
+GET http://localhost:5000/category/name/Rarely Used Product
+
+
+### Create Shelflife for Rare Used Product
+POST http://localhost:5000/shelflife/rare-product
+Content-Type: application/json
+
+{
+    "name" :"katsuboshi",
+    "month" : 5,
+    "day" : 10,
+    "categoryId" :"4fc236ae-ad09-4161-8fdd-c24bd4868444"
+}
+
+### Get Rare Product Shelflifes
+GET http://localhost:5000/shelflifes/rare-product/Rarely Used Product

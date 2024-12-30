@@ -1,11 +1,10 @@
 import { Sequelize } from "sequelize";
 import db from "../config/Database.js";
-import CategoryModel from "./CategoryModel.js";
 
 const { DataTypes } = Sequelize;
 
-const Products = db.define(
-  "products",
+const Rares = db.define(
+  "rares",
   {
     uuid: {
       type: DataTypes.STRING,
@@ -23,7 +22,7 @@ const Products = db.define(
         notEmpty: true,
       },
     },
-    shelflifeInHour: {
+    shelflifeInMonth: {
       type: DataTypes.INTEGER,
       defaultValue: DataTypes.UUIDV4,
       allowNull: false,
@@ -31,29 +30,18 @@ const Products = db.define(
         notEmpty: true,
       },
     },
-    shelflifeInMinute: {
+    shelflifeInDay: {
       type: DataTypes.INTEGER,
       defaultValue: DataTypes.UUIDV4,
-      allowNull: false,
-      validate: {
-        notEmpty: true,
-      },
-    },
-    categoryId: {
-      type: DataTypes.INTEGER,
       allowNull: false,
       validate: {
         notEmpty: true,
       },
     },
   },
-
   {
     freezeTableName: true,
   }
 );
 
-CategoryModel.hasMany(Products);
-Products.belongsTo(CategoryModel, { foreignKey: "categoryId" });
-
-export default Products;
+export default Rares;
