@@ -7,6 +7,7 @@ import {
   GetShelflifeByCategory,
   getShelflifes,
   GetShelflifesByDate,
+  updateShelflifeById,
 } from "../controllers/Shelflifes.js";
 import { verifyUser } from "../middleware/AuthUser.js";
 
@@ -23,5 +24,6 @@ router.get(
   verifyUser,
   GetRareProductShelflifes
 );
+router.patch("/shelflifes/:id", verifyUser, updateShelflifeById);
 
 export default router;

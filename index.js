@@ -21,9 +21,9 @@ const store = new sessionStore({
   db: db,
 });
 
-(async () => {
-  await db.sync();
-})();
+// (async () => {
+//   await db.sync();
+// })();
 
 app.use(
   session({
@@ -51,7 +51,7 @@ app.use(ShelfeRoute);
 app.use(CategoryRoute);
 app.use(RareProductRoute);
 
-defaultData();
+// defaultData();
 store.sync();
 
 app.get("/", (req, res) => {

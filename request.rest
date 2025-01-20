@@ -56,7 +56,7 @@ Content-Type: application/json
 
 {
     "email" : "user@gmail.com",
-    "password" : "12345678"
+    "password" : "12341234"
 }
 
 ###
@@ -166,7 +166,7 @@ Content-Type: application/json
 
 
 ### Get Shelflife by date
-GET http://localhost:5000/user-shelflifes/history?date=2024-10-11
+GET http://localhost:5000/user-shelflifes/history?date=2025-01-20&name=test
 
 
 ### Get Product By Category Name
@@ -194,3 +194,24 @@ Content-Type: application/json
 
 ### Get Rare Product Shelflifes
 GET http://localhost:5000/shelflifes/rare-product/Rarely Used Product
+
+
+###
+// Update a Shelflife Status
+PATCH  http://localhost:5000/shelflifes/ab5ad6c4-3d14-4399-82e2-2f243592a00f
+
+Content-Type: application/json
+
+{
+    "status" : "wasted"
+}
+
+
+###
+//Update Shelflife status
+PATCH http://localhost:5000/shelflifes/492b7dc0-3872-4ff5-960e-f22023e78e2c
+Content-Type: application/json
+
+{
+    "status": "wasted"
+}

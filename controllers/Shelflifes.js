@@ -60,6 +60,7 @@ export const CreateShelflife = async (req, res) => {
   const day = Math.floor(hour / 24);
   const endDate = now.clone().add(day, "days").format("YYYY-MM-DD");
   const end = start.clone().add(hour, "hours").add(minute, "minutes");
+  const status = "none";
 
   try {
     const category = await Category.findOne({ where: { uuid: categoryId } });
@@ -75,6 +76,7 @@ export const CreateShelflife = async (req, res) => {
       endShelflife: end.format("HH:mm:ss"),
       userId: req.userId,
       categoryId: category.id,
+      status: status,
     });
     res.status(200).json({
       message: "Shelflife created successfully",
@@ -110,22 +112,28 @@ export const AllShelflife = async (req, res) => {
 };
 
 export const GetShelflifesByDate = async (req, res) => {
-  const { date } = req.query;
+  const { date, name } = req.query;
 
   if (!date) {
-    return res
-      .status(400)
-      .json({ msg: "Tanggal harus disertakan dalam permintaan." });
+    return res.status(400).json({ msg: "Tanggal tidak boleh kosong." });
   }
 
   try {
-    const data = await Shelflifes.findAll({
-      where: {
-        startDate: {
-          [Op.eq]: date,
-        },
-        userId: req.userId,
+    const whereClause = {
+      startDate: {
+        [Op.eq]: date,
       },
+      userId: req.userId,
+    };
+
+    // Tambahkan filter untuk name jika diberikan
+    if (name) {
+      whereClause.name = {
+        [Op.like]: `%${name}%`, // Pencarian parsial menggunakan LIKE
+      };
+    }
+    const data = await Shelflifes.findAll({
+      where: whereClause,
       include: [{ model: User }],
       order: [
         ["name", "ASC"],
@@ -141,41 +149,6 @@ export const GetShelflifesByDate = async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 };
-
-// export const GetShelflifeByCategory = async (req, res) => {
-//   const { categoryName } = req.query;
-
-//   try {
-//     const response = await Shelflifes.sequelize.query(
-//       `
-//       SELECT S.*
-//       FROM Shelflifes S
-//       INNER JOIN Categories C ON S.categoryId = C.id -- Relasi dengan model Categories menggunakan UUID
-//       WHERE C.name = :categoryName -- Filter berdasarkan kategori
-//       AND S.userId = :userId -- Filter berdasarkan userId
-//       AND S.endShelflife >= (
-//         SELECT MAX(endShelflife)
-//         FROM Shelflifes
-//         WHERE name = S.name
-//         AND userId = :userId
-//       )
-//       ORDER BY S.endShelflife DESC -- Urutkan berdasarkan endShelflife paling baru
-//       `,
-//       {
-//         replacements: {
-//           userId: req.userId,
-//           categoryName: categoryName,
-//         },
-//         model: Shelflifes,
-//         mapToModel: true,
-//       }
-//     );
-
-//     res.status(200).json(response);
-//   } catch (error) {
-//     res.status(500).json({ msg: error.message });
-//   }
-// };
 
 export const GetShelflifeByCategory = async (req, res) => {
   const { categoryName } = req.query;
@@ -285,17 +258,35 @@ export const GetRareProductShelflifes = async (req, res) => {
       }
     });
 
-    // shelflifes.forEach((shelflife) => {
-    //   if (!seenNames.has(shelflife.name)) {
-    //     seenNames.set(shelflife.name, 1);
-    //     latestShelflifes.push(shelflife);
-    //   } else if (seenNames.get(shelflife.name) === 1) {
-    //     seenNames.set(shelflife.name, 2);
-    //     latestShelflifes.push(shelflife);
-    //   }
-    // });
-
     res.status(200).json(latestShelflifes);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+export const updateShelflifeById = async (req, res) => {
+  try {
+    const shelflife = await Shelflifes.findOne({
+      where: {
+        uuid: req.params.id,
+      },
+    });
+    if (!shelflife) {
+      return res.status(404).json({ msg: "Shelflife not found" });
+    }
+
+    const { status } = req.body;
+
+    await Shelflifes.update(
+      {
+        status: status,
+      },
+      {
+        where: { uuid: req.params.id },
+      }
+    );
+
+    res.status(200).json({ msg: "status updated" });
   } catch (error) {
     res.status(500).json({ msg: error.message });
   }

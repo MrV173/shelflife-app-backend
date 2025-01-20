@@ -1,6 +1,7 @@
 import Product from "../models/ProductModel.js";
 import Category from "../models/CategoryModel.js";
 import { Op } from "sequelize";
+import Shelflifes from "../models/ShelflifeModel.js";
 
 export const getProducts = async (req, res) => {
   const { excludedCategoryName } = req.query;

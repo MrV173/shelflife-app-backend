@@ -52,6 +52,14 @@ const Shelflifes = db.define(
         notEmpty: true,
       },
     },
+    status: {
+      type: DataTypes.STRING,
+      defaultValue: DataTypes.UUIDV4,
+      allowNull: true,
+      validate: {
+        notEmpty: true,
+      },
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
