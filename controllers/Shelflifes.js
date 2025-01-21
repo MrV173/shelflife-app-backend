@@ -126,10 +126,9 @@ export const GetShelflifesByDate = async (req, res) => {
       userId: req.userId,
     };
 
-    // Tambahkan filter untuk name jika diberikan
     if (name) {
       whereClause.name = {
-        [Op.like]: `%${name}%`, // Pencarian parsial menggunakan LIKE
+        [Op.like]: `%${name}%`,
       };
     }
     const data = await Shelflifes.findAll({
